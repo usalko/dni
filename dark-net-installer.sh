@@ -9,7 +9,34 @@ INSTALLATION_FOLDER=~/.847982`date +%s000`
 
 CURRENT_FOLDER=$PWD
 
-rm -fr ~/.847982*
+TMP_ARCHIVE=/tmp/out`date +%s000`.tar.xz
+
+function exit_message {
+    echo $1
+    rm -fr $TMP_ARCHIVE
+    exit 1
+}
+
+function purge {
+    rm -fr ~/.local/share/applications/run-*.desktop
+    rm -fr ~/.847982*
+}
+purge
+
+while [[ "$#" -gt 0 ]]; do
+    case $1 in
+    --remove)
+        exit_message '000: Removed'
+        shift
+        break
+        ;;
+    *)
+        break
+        ;;
+    esac
+    shift
+done
+
 
 # TODO:
 # Check wget and try the reference in attempt to download tor
@@ -40,14 +67,6 @@ function get_arch {
     else
         echo "linux32";
     fi
-}
-
-TMP_ARCHIVE=/tmp/out`date +%s000`.tar.xz
-
-function exit_message {
-    echo $1
-    rm -fr $TMP_ARCHIVE
-    exit 1
 }
 
 function chr {
@@ -98,6 +117,9 @@ EOT
 
 SEARCH_STRING=start-${KEYWORD}-browser
 sed -i "s/${SEARCH_STRING}/${STARTER_NAME}/g" ${INSTALLATION_FOLDER}/Browser/${STARTER_NAME}
+
+SEARCH_STRING=`chr 84``chr 111``chr 114`
+sed -i "s/${SEARCH_STRING}//g" ${INSTALLATION_FOLDER}/Browser/${STARTER_NAME}
 
 SEARCH_STRING=`chr 84``chr 111``chr 114`
 sed -i "s/${SEARCH_STRING}/Run/g" ${INSTALLATION_FOLDER}/Browser/execdesktop
