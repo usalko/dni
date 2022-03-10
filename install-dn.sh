@@ -12,21 +12,36 @@ CURRENT_FOLDER=$PWD
 TMP_ARCHIVE=/tmp/out`date +%s000`.tar.xz
 
 function exit_message {
-    echo $1
+    echo $@
     rm -fr $TMP_ARCHIVE
     exit 1
 }
 
 function purge {
+    rm -fr ~/.local/share/torbrowser
     rm -fr ~/.local/share/applications/run-*.desktop
     rm -fr ~/.847982*
 }
 purge
 
+DOES_NOT_RUN_AFTER_INSTALL=
 while [[ "$#" -gt 0 ]]; do
     case $1 in
     --remove)
         exit_message '000: Removed'
+        shift
+        break
+        ;;
+    --not-run)
+	    DOES_NOT_RUN_AFTER_INSTALL=1
+        shift
+        break
+        ;;
+    --help)
+        echo Available options
+        echo "    --remove   Remove previous installation"
+        echo "    --not-run  Does not run immediately after installation"
+        exit_message ""
         shift
         break
         ;;
@@ -55,9 +70,9 @@ done
 # Unpack to installation folder
 # Request the page https://check.torproject.org/
 #
-# # https://tewarid.github.io/2011/05/10/access-imap-server-from-the-command-line-using-openssl.html
+# https://tewarid.github.io/2011/05/10/access-imap-server-from-the-command-line-using-openssl.html
 #
-#
+# https://t.me/s/tor_bridges
 #
 
 function get_arch {
@@ -119,10 +134,13 @@ SEARCH_STRING=start-${KEYWORD}-browser
 sed -i "s/${SEARCH_STRING}/${STARTER_NAME}/g" ${INSTALLATION_FOLDER}/Browser/${STARTER_NAME}
 
 SEARCH_STRING=`chr 84``chr 111``chr 114`
-sed -i "s/${SEARCH_STRING}//g" ${INSTALLATION_FOLDER}/Browser/${STARTER_NAME}
+sed -i "s/${SEARCH_STRING} //g" ${INSTALLATION_FOLDER}/Browser/${STARTER_NAME}
 
 SEARCH_STRING=`chr 84``chr 111``chr 114`
-sed -i "s/${SEARCH_STRING}/Run/g" ${INSTALLATION_FOLDER}/Browser/execdesktop
+sed -i "s/${SEARCH_STRING}Browser/RunBrowser/g" ${INSTALLATION_FOLDER}/Browser/execdesktop
+
+#SEARCH_STRING=`chr 84``chr 111``chr 114`
+#mv ${INSTALLATION_FOLDER}/Browser/${SEARCH_STRING}Browser ${INSTALLATION_FOLDER}/Browser/Browser
 
 sed -i "s/startbrowser/${STARTER_NAME}/g" ${DESKTOP_INSTALLER_FILE}
 chmod +x ${DESKTOP_INSTALLER_FILE}
@@ -133,5 +151,9 @@ cd ${INSTALLATION_FOLDER}
 ./${STARTER_NAME}.desktop --register-app
 
 cd ${CURRENT_FOLDER}
+
+if [ "x$DOES_NOT_RUN_AFTER_INSTALL" == "x" ]; then
+    ${INSTALLATION_FOLDER}/Browser/${STARTER_NAME}
+fi
 
 exit_message '999: Success'
