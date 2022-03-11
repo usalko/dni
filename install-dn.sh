@@ -94,10 +94,10 @@ echo $KEYWORD
 DIRECT_REFERENCE=https://www.${KEYWORD}project.org/dist/${KEYWORD}browser/${VERSION}/${KEYWORD}-browser-`get_arch`-${VERSION}_${LOCALE}.tar.xz
 if command -v curl &>/dev/null; then
     echo 'You have the curl'
-    curl $DIRECT_REFERENCE -L -o $TMP_ARCHIVE || exit_message '001: The curl throw the issue when download the file $DIRECT_REFERENCE'
+    curl $DIRECT_REFERENCE -L -o $TMP_ARCHIVE || exit_message "001: The curl throw the issue when download the file $DIRECT_REFERENCE"
     elif command -v wget &>/dev/null; then
     echo 'You have the wget'
-    wget $DIRECT_REFERENCE -O $TMP_ARCHIVE || exit_message '002: The wget throw the issue when download the file $DIRECT_REFERENCE'
+    wget $DIRECT_REFERENCE -O $TMP_ARCHIVE || exit_message "002: The wget throw the issue when download the file $DIRECT_REFERENCE"
 else
     exit_message '003: Please install curl or wget'
 fi
