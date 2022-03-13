@@ -11,7 +11,7 @@ function read_password {
     RETURN_VALUE=$INPUT_CONTENT
 }
 
-read_input Имя почтового сервера, при нажатии Enter без ввода имени будет подствалено значение gmail.com:
+read_input Имя почтового сервера, при нажатии Enter без ввода имени будет подставлено значение gmail.com:
 SERVER_NAME=$RETURN_VALUE
 read_input Имя пользователя почтового сервера ваш email:
 USER_NAME=$RETURN_VALUE
