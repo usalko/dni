@@ -26,17 +26,19 @@ echo $SMTP_PASSWORD
 # Port 25, 587, 465, or 2525)
 
 subject="Subject of my email"
-txtmessage="This is the message I want to send"
-username='mail@exemple.com'
-password='************'
-From="mail01@exemple.com"
-rcpt='testemail5739230@yopmail.com'
+txtmessage="linux ru"
+username=$USER_NAME
+password=$SMTP_PASSWORD
+From="$USER_NAME"
+rcpt='gettor@torproject.org'
 from_name='N BOINA'
 rcpt_name='Nicolas Hulot'
 
+SMTP_SERVER=smtp-relay.gmail.com
+
 {
 sleep 0.3;
-echo "EHLO $(echo $username | cut -d "@" -f 2 )"
+echo "EHLO $(echo $USER_NAME | cut -d "@" -f 2 )"
 sleep 0.3;
 
 # Comment this line if you use smtp without authentication
@@ -89,4 +91,6 @@ sleep 0.3;
 
 #} | telnet smtp-relay.gmail.com 25
 #} | openssl s_client -starttls smtp -crlf -connect smtp-relay.gmail.com:587
-} | openssl s_client -crlf -connect smtp-relay.gmail.com:465
+} | openssl s_client -crlf -connect $SMTP_SERVER:465
+
+echo Посмотрите пожалуйста почту, скопируйте ссылку и удалите сообщение

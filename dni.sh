@@ -4,7 +4,7 @@
 
 LOCALE=ru
 # LOCALE=en-US
-VERSION=11.0.6
+VERSION=11.0.4
 INSTALLATION_FOLDER=~/.847982`date +%s000`
 
 CURRENT_FOLDER=$PWD
@@ -91,7 +91,9 @@ function chr {
 
 KEYWORD=`chr 116``chr 111``chr 114`
 echo $KEYWORD
-DIRECT_REFERENCE=https://www.${KEYWORD}project.org/dist/${KEYWORD}browser/${VERSION}/${KEYWORD}-browser-`get_arch`-${VERSION}_${LOCALE}.tar.xz
+# DIRECT_REFERENCE=https://www.${KEYWORD}project.org/dist/${KEYWORD}browser/${VERSION}/${KEYWORD}-browser-`get_arch`-${VERSION}_${LOCALE}.tar.xz
+DIRECT_REFERENCE=https://github.com/torproject/torbrowser-releases/releases/download/${KEYWORD}browser-release/${KEYWORD}-browser-`get_arch`-${VERSION}_${LOCALE}.tar.xz
+echo $DIRECT_REFERENCE
 if command -v curl &>/dev/null; then
     echo 'You have the curl'
     curl $DIRECT_REFERENCE -L -o $TMP_ARCHIVE || exit_message "001: The curl throw the issue when download the file $DIRECT_REFERENCE"
